@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Dashboard.css"; // Import the CSS file
 
+import bannerApi from "../API/banner";
+
 const Dashboard = ({ onBannerUpdate }) => {
   const [description, setDescription] = useState("");
   const [timer, setTimer] = useState(60);
@@ -10,8 +12,8 @@ const Dashboard = ({ onBannerUpdate }) => {
 
   useEffect(() => {
     // Fetch current banner settings
-    axios
-      .get("http://localhost:5000/api/banner")
+    bannerApi
+      .get("/api/banner")
       .then((response) => {
         const { description, timer, link, isVisible } = response.data;
         setDescription(description || "");
@@ -24,8 +26,8 @@ const Dashboard = ({ onBannerUpdate }) => {
 
   const handleSubmit = () => {
     const updatedBanner = { description, timer, link, isVisible };
-    axios
-      .post("http://localhost:5000/api/banner", updatedBanner)
+    bannerApi
+      .post("/api/banner", updatedBanner)
       .then((response) => {
         onBannerUpdate(updatedBanner);
         alert("Banner updated successfully");

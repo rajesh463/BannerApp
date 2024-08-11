@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Banner.css"; // Optional CSS import for styling
 
+import bannerApi from "../API/banner";
+
 const formatTime = (seconds) => {
   const days = Math.floor(seconds / (24 * 3600));
   seconds %= 24 * 3600;
@@ -23,8 +25,8 @@ const Banner = () => {
 
   useEffect(() => {
     // Fetch the banner data from the backend
-    axios
-      .get("http://localhost:5000/api/banner")
+    bannerApi
+      .get("/api/banner")
       .then((response) => {
         setBannerData(response.data);
       })
@@ -63,8 +65,7 @@ const Banner = () => {
     <div className="banner">
       <p>{bannerData.description}</p>
       <p className="timer">
-        Time remaining:{" "}
-        {days > 0 && `${days} days `}
+        Time remaining: {days > 0 && `${days} days `}
         {hours > 0 && `${hours} hours `}
         {minutes > 0 && `${minutes} minutes `}
         {secs > 0 && `${secs} seconds`}
