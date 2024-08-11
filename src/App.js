@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import Dashboard from "./Components/Dashboard";
+import Banner from "./Components/Banner";
+import "./App.css"; // Import the CSS file
 
-function App() {
+const App = () => {
+  const [bannerData, setBannerData] = useState({
+    description: "",
+    timer: 60,
+    link: "",
+    isVisible: true,
+  });
+
+  const handleBannerUpdate = (updatedBanner) => {
+    setBannerData(updatedBanner);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="app-container">
+        <header className="app-header">
+          <Link to="/" className="header-title">
+            My Banners
+          </Link>
+          <nav>
+            <Link to="/" className="nav-link">
+              Home
+            </Link>
+            <Link to="/dashboard" className="nav-link">
+              Dashboard
+            </Link>
+          </nav>
+        </header>
+        <main>
+          <Routes>
+            <Route path="/" element={<Banner {...bannerData} />} />
+            <Route
+              path="/dashboard"
+              element={<Dashboard onBannerUpdate={handleBannerUpdate} />}
+            />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
